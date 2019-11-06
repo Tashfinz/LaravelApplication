@@ -38,6 +38,6 @@ class User extends Authenticatable
     ];
     //Relationship of Roles
     public function role (){
-        return $this->belongsTo('App\Role', 'roles', 'user_id', 'roles_id');
+        return $this->belongsTo('App\Role');
     }
 }
