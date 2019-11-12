@@ -17,9 +17,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
+Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -29,8 +27,15 @@ Route::get('/admin', function (){
 
     return view('admin.index');
 });
+//
+//Route::name('admin.')->group(function() {
+//
+//    Route::resource('admin/users', 'AdminUsersController');
+//});
 
-Route::name('admin.')->group(function() {
+Route::name('admin.')->middleware(['middleware'=>'admin'])->group(function (){
 
     Route::resource('admin/users', 'AdminUsersController');
+    Route::resource('admin/posts', 'AdminPostsController');
+
 });
