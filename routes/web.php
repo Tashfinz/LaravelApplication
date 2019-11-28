@@ -23,17 +23,25 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('admin/users', 'AdminUsersController');
 
-Route::get('/admin', function (){
 
-    return view('admin.index');
-});
 //
 //Route::name('admin.')->group(function() {
 //
 //    Route::resource('admin/users', 'AdminUsersController');
 //});
 
+
+//as will give the route a name
+
+//uses serves the purpose to specify which method of which controller to call
+Route::get('/post/{slug}', ['as'=>'home.post', 'uses'=>'AdminPostsController@post']);
+
 Route::name('admin.')->middleware(['middleware'=>'admin'])->group(function (){
+
+    Route::get('/admin', function (){
+
+        return view('admin.index');
+    });
 
     Route::resource('admin/users', 'AdminUsersController');
 
@@ -43,4 +51,27 @@ Route::name('admin.')->middleware(['middleware'=>'admin'])->group(function (){
 
     Route::resource('admin/media', 'AdminMediasController');
 
+    Route::resource('admin/comments','PostCommentsController');
+
+    Route::resource('admin/comments/replies', 'CommentRepliesController');
+
 });
+
+Route::name('admin.')->middleware(['middleware'=>'auth'])->group(function (){
+
+    Route::post('comment/reply', 'CommentRepliesController@createReply');
+
+});
+
+Route::delete('admin/delete/media','AdminMediasController@deleteMedia');
+
+Route::resource('admin/media', 'AdminMediasController',['names'=>[
+
+    'index'=>'admin.media.index',
+    'create'=>'admin.media.create',
+    'store'=>'admin.media.store',
+    'edit'=>'admin.media.edt',
+
+    ]]);
+
+

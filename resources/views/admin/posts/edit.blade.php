@@ -1,6 +1,8 @@
 @extends('layouts.admin')
 
 @section('content')
+
+    @include('includes.tinyeditor')
     <h1>Edit Posts</h1>
 
     {!! Form::model($post,['method'=>'PATCH', 'action'=>['AdminPostsController@update', $post->id], 'files'=>true]) !!}

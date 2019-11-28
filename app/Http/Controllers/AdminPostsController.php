@@ -6,6 +6,7 @@ use App\Http\Requests\PostsCreateRequest;
 use App\Post;
 use App\Photo;
 use App\Category;
+use App\Comment;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class AdminPostsController extends Controller
     {
         //
 
-        $posts = Post::all();
+        $posts = Post::paginate(4);
 
         return view ('admin.posts.index', compact('posts'));
     }
@@ -85,6 +86,11 @@ class AdminPostsController extends Controller
     public function show($id)
     {
         //
+        $post = Post::findOrFail($id);
+
+        $comments = $post->comments;
+
+        return view ('admin.comments.show', compact('comments'));
     }
 
     /**
@@ -155,4 +161,14 @@ class AdminPostsController extends Controller
 
         return redirect('/admin/posts');
     }
+
+    public function post($slug){
+
+        $post = Post::findBySlugOrFail($slug);
+
+        $comments = $post->comments()->where('is_active', 1)->get();
+
+        return view('post', compact('post', 'comments'));
+    }
+
 }
