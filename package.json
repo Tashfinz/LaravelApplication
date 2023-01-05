@@ -27,7 +27,7 @@
     "dependencies": {
         "elixir": "^0.1.2",
         "laravel-echo": "^1.6.1",
-        "laravel-elixir": "^5.0.0",
+        "laravel-elixir": "^6.0.0-18",
         "pusher-js": "^5.0.2",
         "require": "^2.4.20"
     }
